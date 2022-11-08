@@ -1,12 +1,13 @@
 const asyncHandler = require('express-async-handler')
 
 const Flashcard = require('../model/flashcardModel')
+const User = require('../model/userModel')
 
 // @desc Get flashcards
 // @route GET /api/flashcards
 // @access Private
 const getFlashcards = asyncHandler(async (req, res) => {
-    const flashcards = await Flashcard.find()
+    const flashcards = await Flashcard.find({ user: req.user.id })
 
     res.status(200).json(flashcards)
 })
@@ -22,7 +23,8 @@ const setFlashcard = asyncHandler(async (req, res) => {
     }
 
     const flashcard = await Flashcard.create({
-        text: req.body.text
+        text: req.body.text,
+        user: req.user.id,
     })
 
     res.status(200).json(flashcard)
@@ -39,6 +41,20 @@ const updateFlashcard = asyncHandler(async (req, res) => {
         throw new Error('Flashcard not found')
     }
 
+    const user = await User.findById(req.user.id)
+
+    // Check for user
+    if(!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    // Make sure the logged in user matches the flashcard user
+    if(flashcard.user.toString() !== user.id) {
+        res.status(401)
+        throw new Error('User not authorized')
+    }
+
     const updatedFlashcard = await Flashcard.findByIdAndUpdate(req.params.id, req.body, {new: true})
     
     res.status(200).json(updatedFlashcard)
@@ -53,6 +69,20 @@ const deleteFlashcard = asyncHandler(async (req, res) => {
     if(!flashcard) {
         res.status(400)
         throw new Error('Flashcard not found')
+    }
+
+    const user = await User.findById(req.user.id)
+
+    // Check for user
+    if(!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    // Make sure the logged in user matches the flashcard user
+    if(flashcard.user.toString() !== user.id) {
+        res.status(401)
+        throw new Error('User not authorized')
     }
 
     await flashcard.remove()
