@@ -5,7 +5,7 @@ function Header() {
     return (
         <header className='header'>
             <div className='logo'>
-                <Link to='/'>Flashcards</Link>
+                <Link to='/'>Insert Title Here</Link>
             </div>
             <ul>
                 <li>
