@@ -4,7 +4,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import FlashcardForm from '../components/FlashcardForm'
 import FlashcardItem from '../components/FlashcardItem'
 import Spinner from '../components/Spinner'
-import {getFlashcards, reset} from '../features/flashcards/flashcardSlice'
+import {getFlashcards} from '../features/flashcards/flashcardSlice'
+import {reset} from '../features/auth/authSlice'
 
 function Dashboard() {
     const navigate = useNavigate()
