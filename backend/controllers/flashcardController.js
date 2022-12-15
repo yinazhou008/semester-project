@@ -16,14 +16,18 @@ const getFlashcards = asyncHandler(async (req, res) => {
 // @route POST /api/flashcards
 // @access Private
 const setFlashcard = asyncHandler(async (req, res) => {
-    if(!req.body.text) {
+    if(!req.body.text) { 
         res.status(400)
         throw new Error('Please add a text field')
-
+    }
+    if(!req.body.text2) { 
+        res.status(400)
+        throw new Error('Please add a text2 field')
     }
 
     const flashcard = await Flashcard.create({
         text: req.body.text,
+        text2: req.body.text2,
         user: req.user.id,
     })
 

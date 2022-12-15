@@ -12,6 +12,10 @@ function FlashcardItem({flashcard}) {
             <h2>
                 {flashcard.text}
             </h2>
+            <h2>
+                {flashcard.text2}                   
+            </h2>
+
             <button onClick={()=> dispatch(deleteFlashcard(flashcard._id))} className="close">X</button>
         </div>
     )
