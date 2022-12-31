@@ -1,43 +1,48 @@
-const path = require('path')
-const express = require('express')
-const colors = require('colors')
-const dotenv = require('dotenv').config()
-const {errorHandler} = require('./middleware/errorMiddleware')
-const connectDB = require('./config/db')
-const port = process.env.PORT || 8080
-const cors = require("cors")
-const whitelist = ["http://localhost:3000"]
+const path = require("path");
+const express = require("express");
+const colors = require("colors");
+const dotenv = require("dotenv").config();
+const { errorHandler } = require("./middleware/errorMiddleware");
+const connectDB = require("./config/db");
+const port = process.env.PORT || 8080;
+const cors = require("cors");
+const whitelist = ["http://localhost:3000"];
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || whitelist.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error("Not allowed by CORS"))
-        }
-    },
-    credentials: true,
-}
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
 
-connectDB()
+connectDB();
 
-const app = express()
-app.use(cors(corsOptions))
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+const app = express();
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.use('/api/flashcards', require('./routes/flashcardRoutes'))
-app.use('/api/users', require('./routes/userRoutes'))
+app.use("/api/flashcards", require("./routes/flashcardRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/questions", require("./routes/questionRoutes"));
+app.use("/api/answers", require("./routes/answersRoutes"));
 
 // serve frontend
-if(process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../frontend/build')))
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
+  app.get("*", (req, res) =>
+    res.sendFile(
+      path.resolve(__dirname, "../", "frontend", "build", "index.html")
+    )
+  );
 } else {
-    app.get('/', (req, res) => res.send('Please set to production'))
+  app.get("/", (req, res) => res.send("Please set to production"));
 }
 
+app.use(errorHandler);
 
-app.use(errorHandler)
-
-app.listen(port, () => console.log(`Server started on port ${port}`))
+app.listen(port, () => console.log(`Server started on port ${port}`));
