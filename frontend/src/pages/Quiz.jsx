@@ -11,7 +11,7 @@ export default function Quiz() {
   const [animationState, setAnimationState] = useState(0)
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getQuizs(10))
+    dispatch(getQuizs(5))
   }, [])
 
   useEffect(() => {
@@ -23,9 +23,10 @@ export default function Quiz() {
   if (isLoading) {
     return <Spinner />
   }
+
   return (
     <>
-      {quizs?.data?.questions?.length > 0 ? (quizs?.data?.questions?.map((item, id) => step === id && <QuizCard item={item} id={id} results={quizs?.results} animationState={animationState} setAnimationState={setAnimationState} />)) : (<h3>You have not entered any flashcards</h3>)}
+      {quizs?.data?.length > 0 ? (quizs?.data?.map((item, id) => step === id && <QuizCard item={item} id={id} results={quizs?.results} animationState={animationState} setAnimationState={setAnimationState} />)) : (<h3>You have not entered any flashcards</h3>)}
       {step === quizs?.results && <QuizResult />}
     </>
   )

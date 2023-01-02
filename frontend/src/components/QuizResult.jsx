@@ -17,7 +17,6 @@ export default function QuizResult() {
         <div>
             <div className="flex justify-between items-center">
                 <h2>Your Result: {result?.length * 10}</h2>
-                <p className='text-sky-500 font-medium hover:underline' onClick={createNewQuiz}>Create new Quiz</p>
             </div>
             <div className="flex flex-col gap-3">
                 {

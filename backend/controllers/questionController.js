@@ -7,20 +7,22 @@ const createQuestion = asyncHandler(async (req, res, next) => {
   return res.status(201).json({ status: "success", question });
 });
 
-const getAllQuestions = asyncHandler(async (req, res, next) => {
-  // getting random questions
-  const total = await Question.count();
-  const limit = req.query.limit;
-  const x = Math.floor(total / limit);
-  const page = Math.floor(Math.random() * x) + 1;
-  const skip = (page - 1) * limit;
+// const getAllQuestions = asyncHandler(async (req, res, next) => {
+//   // getting random questions
+//   const total = await Question.count();
+//   const limit = req.query.limit;
+//   const x = Math.floor(total / limit);
+//   const page = Math.floor(Math.random() * x) + 1;
+//   const skip = (page - 1) * limit;
 
-  const questions = await Question.find().limit(limit).skip(skip);
-  return res.status(200).json({
-    status: "success",
-    results: questions.length,
-    data: { questions },
-  });
-});
+//   const questions = await Question.find().limit(limit).skip(skip);
+//   return res.status(200).json({
+//     status: "success",
+//     results: questions.length,
+//     data: { questions },
+//   });
+// });
 
-module.exports = { createQuestion, getAllQuestions };
+
+
+module.exports = { createQuestion };

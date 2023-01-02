@@ -33,6 +33,20 @@ function Dashboard() {
     if(isLoading) {
         return <Spinner />
     }
+    
+
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+// usage example:
+var a = flashcards?.map((i)=>i.text2.trimEnd());
+var unique = a.filter(onlyUnique);
+// const v = [" programing lan ","  hk"]
+// const newv = v.map(i=>i.trimStart().trimEnd())
+// console.log(newv);
+console.log(unique); 
 
     return <>
         <section className="heading">
